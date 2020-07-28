@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <com.study.horizontalruler.RuleHorizontalScrollView
+        android:id="@+id/rule_scrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none">
+
+        <com.study.horizontalruler.RuleView
+            android:id="@+id/rule_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top"
+            android:layout_marginTop="-20dp" />
+
+    </com.study.horizontalruler.RuleHorizontalScrollView>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:background="#FFFFFF"
+        android:visibility="visible" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_cb_indicator" />
+</RelativeLayout>

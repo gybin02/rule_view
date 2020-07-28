@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-HorizontalRuler.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-HorizontalRuler.iml" group="HorizontalRuler" />
       <module fileurl="file://$PROJECT_DIR$/HorizontalRuler.iml" filepath="$PROJECT_DIR$/HorizontalRuler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HorizontalRuler-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HorizontalRuler-app.iml" group="HorizontalRuler/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
