@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tv = (TextView) findViewById(R.id.tv);
+        final TextView tv_user = (TextView) findViewById(R.id.tv_user);
         ruleView = (RuleScrollView) findViewById(R.id.rule_scroll_view);
-        ruleView.setRange(-45,45);
+        ruleView.setRange(-45, 45);
         ruleView.setProcess(10);
         ruleView.setOnChangedListener(new RuleScrollView.OnChangedListener() {
             @Override
@@ -39,9 +40,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSlide(int number) {
-//                Log.e(TAG, "onSlide: " + number);
-                tv.setText(number + "");
+            public void onSlide(boolean isFromUser, int number) {
+                Log.e(TAG, "onSlide: " + number);
+                tv.setText("全部：" + number);
+                if (isFromUser) {
+                    tv_user.setText("用户触发： " + number);
+                }
             }
         });
 

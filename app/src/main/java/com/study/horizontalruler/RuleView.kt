@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Handler
 import android.text.TextPaint
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.Log
@@ -72,6 +71,12 @@ internal class RuleView : View {
     var maxValue = 20
     var minValue = -20
 
+    /**
+     * 是否来自用户触发
+     */
+    private var isFromUser: Boolean = false
+
+
     constructor(context: Context) : super(context) {
         init()
     }
@@ -84,6 +89,7 @@ internal class RuleView : View {
         this.horizontalScrollView.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    isFromUser = true
                     listener?.onStartTouch()
                 }
                 MotionEvent.ACTION_MOVE -> mScrollHandler.removeCallbacks(mScrollRunnable)
@@ -104,9 +110,9 @@ internal class RuleView : View {
 
     private fun init() {
         metrics = DisplayMetrics()
-        val wmg = context
+        val windowManager = context
             .getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        wmg.defaultDisplay.getMetrics(metrics)
+        windowManager.defaultDisplay.getMetrics(metrics)
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.FILL
         paint.strokeWidth = Util.dip2px(context, 2f).toFloat()
@@ -128,12 +134,12 @@ internal class RuleView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         //刻度线的长度
-        var yLenght: Float
+        var yLength: Float
         for (i in 0..maxGap) {
             val newX = i * gap + startX
             if ((i + minValue) % 10 == 0) {
                 paint.color = Color.parseColor(colorLarge)
-                yLenght = Util.dip2px(context, largeHeight).toFloat()
+                yLength = Util.dip2px(context, largeHeight).toFloat()
 
                 // 画刻度文字
                 paint.textSize = mFontSize
@@ -150,10 +156,10 @@ internal class RuleView : View {
                 canvas.drawText(text, x, y, paint)
             } else {
                 paint.color = Color.parseColor(colorSmall)
-                yLenght =
+                yLength =
                     Util.dip2px(context, smallHeight).toFloat()
             }
-            canvas.drawLine(newX, startY, newX, yLenght + startY, paint)
+            canvas.drawLine(newX, startY, newX, yLength + startY, paint)
         }
         paint.color = Color.parseColor(colorText)
         var i = 0
@@ -182,12 +188,11 @@ internal class RuleView : View {
         scrollWidth = l
         val number = scrollWidth / gap
         val result = number.toInt() + minValue
-        listener?.onSlide(result)
+        listener?.onSlide(isFromUser,result)
 
     }
 
     private var listener: RuleScrollView.OnChangedListener? = null
-
 
 
     fun setOnChangedListener(listener: RuleScrollView.OnChangedListener?) {
@@ -214,6 +219,7 @@ internal class RuleView : View {
                     e.printStackTrace()
                 }
                 mScrollHandler.removeCallbacks(this)
+                isFromUser = false
                 listener?.onStopTouch()
             } else {
                 mCurrentX = horizontalScrollView.scrollX

@@ -54,6 +54,8 @@ import android.widget.RelativeLayout
     fun setRange(minValue: Int,maxValue: Int){
         ruleView.minValue = (minValue)
         ruleView.maxValue = maxValue
+//        ruleView.measure(ruleView.width,ruleView.height)
+//        ruleView.invalidate()
         ruleView.requestLayout()
     }
 
@@ -71,10 +73,10 @@ import android.widget.RelativeLayout
     interface OnChangedListener {
         /**
          * 滑动数值
-         *
+         *@param isFromUser 是否来自用户
          * @param process 进度
          */
-        fun onSlide(process: Int)
+        fun onSlide(isFromUser:Boolean,process: Int)
 
         /**
          * 开始滑动
