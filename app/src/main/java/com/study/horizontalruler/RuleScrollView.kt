@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
-import com.study.horizontalruler.RuleView.OnChangedListener
 
 /**
  * 滑动尺子布局
  */
-internal class RuleScrollView : RelativeLayout {
+ class RuleScrollView : RelativeLayout {
 
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs, 0) {
@@ -68,5 +67,24 @@ internal class RuleScrollView : RelativeLayout {
             ruleView.setProcess(process)
         }
     }
+
+    interface OnChangedListener {
+        /**
+         * 滑动数值
+         *
+         * @param process 进度
+         */
+        fun onSlide(process: Int)
+
+        /**
+         * 开始滑动
+         */
+        fun onStartTouch()
+        /**
+         * 停止滑动
+         */
+        fun onStopTouch()
+    }
+
 
 }

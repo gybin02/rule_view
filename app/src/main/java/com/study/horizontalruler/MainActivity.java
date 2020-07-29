@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         ruleView = (RuleScrollView) findViewById(R.id.rule_scroll_view);
         ruleView.setRange(-45,45);
         ruleView.setProcess(10);
-        ruleView.setOnChangedListener(new RuleView.OnChangedListener() {
+        ruleView.setOnChangedListener(new RuleScrollView.OnChangedListener() {
             @Override
             public void onStartTouch() {
                 Log.e(TAG, "onStartTouch");

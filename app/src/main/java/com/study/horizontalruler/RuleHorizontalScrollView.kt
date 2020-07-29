@@ -7,7 +7,7 @@ import android.widget.HorizontalScrollView
 /**
  * 尺子滚动
  */
-class RuleHorizontalScrollView @JvmOverloads constructor(
+internal class RuleHorizontalScrollView @JvmOverloads constructor(
     context: Context?, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : HorizontalScrollView(context, attrs, defStyleAttr) {

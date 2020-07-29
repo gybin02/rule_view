@@ -16,7 +16,7 @@ import android.view.View
 import android.view.WindowManager
 import java.text.DecimalFormat
 
-class RuleView : View {
+internal class RuleView : View {
     private val tag = "RuleView"
 
     private lateinit var paint: Paint
@@ -82,8 +82,7 @@ class RuleView : View {
     ) {
         this.horizontalScrollView = horizontalScrollView
         this.horizontalScrollView.setOnTouchListener { v, event ->
-            val action = event.action
-            when (action) {
+            when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     listener?.onStartTouch()
                 }
@@ -110,26 +109,19 @@ class RuleView : View {
         wmg.defaultDisplay.getMetrics(metrics)
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.FILL
-        paint.strokeWidth = resources.getDimension(R.dimen.text_h2)
+        paint.strokeWidth = Util.dip2px(context, 2f).toFloat()
         paint.color = Color.parseColor("#999999")
         mFontSize = Util.dip2px(context, 12f).toFloat()
         startY = Util.dip2px(context, 20f).toFloat()
         gap = Util.dip2px(context, 8f).toFloat()
-        startX = Util.getScreenWidth(context) / 2.0f - Util.dip2px(
-            context,
-            12f
-        )
+        startX = Util.getScreenWidth(context) / 2.0f
         mScrollHandler = Handler(context.mainLooper)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         Log.e(tag, "onMeasure: $maxValue: $minValue")
         maxGap = maxValue - minValue
-        val width =
-            maxGap * gap + Util.getScreenWidth(context) - Util.dip2px(
-                context,
-                12f
-            ) * 2.0f
+        val width = maxGap * gap + Util.getScreenWidth(context)
         setMeasuredDimension(width.toInt(), heightMeasureSpec)
     }
 
@@ -194,27 +186,11 @@ class RuleView : View {
 
     }
 
-    private var listener: OnChangedListener? = null
+    private var listener: RuleScrollView.OnChangedListener? = null
 
-    interface OnChangedListener {
-        /**
-         * 滑动数值
-         *
-         * @param process 进度
-         */
-        fun onSlide(process: Int)
 
-        /**
-         * 开始滑动
-         */
-        fun onStartTouch()
-        /**
-         * 停止滑动
-         */
-        fun onStopTouch()
-    }
 
-    fun setOnChangedListener(listener: OnChangedListener?) {
+    fun setOnChangedListener(listener: RuleScrollView.OnChangedListener?) {
         this.listener = listener
     }
 
