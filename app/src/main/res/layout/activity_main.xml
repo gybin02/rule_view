@@ -14,10 +14,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="onClick"
-        android:text="跳转"
-        android:visibility="gone" />
+        android:onClick="clickBtnA"
+        android:text="设置参数1"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="clickBtnB"
+        android:text="设置参数B"
+        />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="clickBtnC"
+        android:text="设置参数C"
+        />
     <TextView
         android:id="@+id/tv"
         android:layout_width="fill_parent"

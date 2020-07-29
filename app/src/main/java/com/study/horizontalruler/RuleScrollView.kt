@@ -51,18 +51,11 @@ internal class RuleScrollView : RelativeLayout {
         ruleView.setOnChangedListener(listener)
     }
 
-    /**
-     * 设置刻度最小值
-     */
-    fun setMinValue(minValue: Int) {
-        ruleView.setMinValue(minValue)
-    }
 
-    /**
-     * 设置刻度最大值
-     */
-    fun setMaxValue(maxValue: Int) {
+    fun setRange(minValue: Int,maxValue: Int){
+        ruleView.minValue = (minValue)
         ruleView.maxValue = maxValue
+        ruleView.requestLayout()
     }
 
     /**
