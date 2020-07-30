@@ -54,9 +54,10 @@ import android.widget.RelativeLayout
     fun setRange(minValue: Int,maxValue: Int){
         ruleView.minValue = (minValue)
         ruleView.maxValue = maxValue
-//        ruleView.measure(ruleView.width,ruleView.height)
-//        ruleView.invalidate()
         ruleView.requestLayout()
+    }
+    fun setUnit(unit:Int){
+        ruleView.unit =unit
     }
 
     /**

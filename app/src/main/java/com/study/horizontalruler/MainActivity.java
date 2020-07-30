@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView tv_user = (TextView) findViewById(R.id.tv_user);
         ruleView = (RuleScrollView) findViewById(R.id.rule_scroll_view);
         ruleView.setRange(-45, 45);
+        ruleView.setUnit(15);
         ruleView.setProcess(10);
         ruleView.setOnChangedListener(new RuleScrollView.OnChangedListener() {
             @Override
@@ -57,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickBtnB(View view) {
-        ruleView.setRange(-55, 55);
+        ruleView.setRange(-60, 60);
         ruleView.setProcess(30);
     }
 
     public void clickBtnC(View view) {
-        ruleView.setRange(-10, 80);
-        ruleView.setProcess(40);
+        ruleView.setRange(-15, 90);
+        ruleView.setProcess(45);
     }
 }

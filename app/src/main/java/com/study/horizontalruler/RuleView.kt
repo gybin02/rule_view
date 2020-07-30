@@ -23,7 +23,7 @@ internal class RuleView : View {
     /**
      * 间隔总数
      */
-    private var maxGap = 0
+    private var maxGap = 0f
 
     /**
      * 起点x的坐标
@@ -42,7 +42,7 @@ internal class RuleView : View {
     /**
      * 刻度的间隙
      */
-    private var gap = 8f
+    private var gapWidth = 8f
 
     /**
      * 文本的字体大小
@@ -50,9 +50,9 @@ internal class RuleView : View {
     private var mFontSize = 0f
 
     /**
-     * 刻度进制
+     * 刻度进制,一个大区间代表的进度，默认10。
      */
-    private val unit = 10f
+    var unit = 10
 
     // 画刻度线
     private val colorSmall = "#4DFFFFFF"
@@ -119,15 +119,19 @@ internal class RuleView : View {
         paint.color = Color.parseColor("#999999")
         mFontSize = Util.dip2px(context, 12f).toFloat()
         startY = Util.dip2px(context, 20f).toFloat()
-        gap = Util.dip2px(context, 8f).toFloat()
+        gapWidth = Util.dip2px(context, 8f).toFloat()
         startX = Util.getScreenWidth(context) / 2.0f
         mScrollHandler = Handler(context.mainLooper)
     }
 
+    private fun getGapUnit(): Float {
+        return unit / 10f
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         Log.e(tag, "onMeasure: $maxValue: $minValue")
-        maxGap = maxValue - minValue
-        val width = maxGap * gap + Util.getScreenWidth(context)
+        maxGap = (maxValue - minValue) / getGapUnit()
+        val width = maxGap * gapWidth + Util.getScreenWidth(context)
         setMeasuredDimension(width.toInt(), heightMeasureSpec)
     }
 
@@ -135,20 +139,18 @@ internal class RuleView : View {
         super.onDraw(canvas)
         //刻度线的长度
         var yLength: Float
-        for (i in 0..maxGap) {
-            val newX = i * gap + startX
-            if ((i + minValue) % 10 == 0) {
+        for (i in 0..maxGap.toInt()) {
+            val newX = i * gapWidth + startX
+            val value = i * getGapUnit() + minValue
+            if ((value) % unit == 0f) {
                 paint.color = Color.parseColor(colorLarge)
                 yLength = Util.dip2px(context, largeHeight).toFloat()
 
                 // 画刻度文字
                 paint.textSize = mFontSize
-                val text = (minValue + i).toString() + ""
+                val text = value.toInt().toString()
                 // 获取文本的宽度
-                val width = Util.px2dip(
-                    context,
-                    calculateTextWidth(text)
-                ) / 2f
+                val width = Util.px2dip(context, calculateTextWidth(text)) / 2f
                 val y =
                     (startY + Util.dip2px(context, largeHeight)
                             + Util.dip2px(context, 28f))
@@ -160,11 +162,6 @@ internal class RuleView : View {
                     Util.dip2px(context, smallHeight).toFloat()
             }
             canvas.drawLine(newX, startY, newX, yLength + startY, paint)
-        }
-        paint.color = Color.parseColor(colorText)
-        var i = 0
-        while (i <= maxGap / unit) {
-            i++
         }
     }
 
@@ -186,9 +183,9 @@ internal class RuleView : View {
     fun setScrollerChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
         // 滑动的距离
         scrollWidth = l
-        val number = scrollWidth / gap
-        val result = number.toInt() + minValue
-        listener?.onSlide(isFromUser,result)
+        val number = scrollWidth / gapWidth
+        val result = number * getGapUnit() + minValue
+        listener?.onSlide(isFromUser, result.toInt())
 
     }
 
@@ -206,18 +203,6 @@ internal class RuleView : View {
         override fun run() {
             // 滚动停止了
             if (mCurrentX == horizontalScrollView.scrollX) {
-                try {
-                    val x = horizontalScrollView.scrollX.toFloat()
-                    // 当前的值
-                    val value = x / (gap * unit)
-                    val s = df.format(value.toDouble())
-
-                    // 滑动到11.0 ok
-                    val scrollX = (s.toDouble() * gap * unit).toInt()
-                    horizontalScrollView.smoothScrollTo(scrollX, 0)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
                 mScrollHandler.removeCallbacks(this)
                 isFromUser = false
                 listener?.onStopTouch()
@@ -235,7 +220,7 @@ internal class RuleView : View {
      * @param process 默认值
      */
     fun setProcess(process: Int) {
-        val scrollX = ((process - minValue) * gap).toInt()
+        val scrollX = ((process - minValue) * gapWidth).toInt()
         Handler().postDelayed({ horizontalScrollView.smoothScrollTo(scrollX, 0) }, 100)
     }
 
@@ -245,7 +230,7 @@ internal class RuleView : View {
      * @param process 数值
      */
     fun setScaleScroll(process: Float) {
-        val scrollX = ((process - minValue) * gap).toInt()
+        val scrollX = ((process - minValue) * gapWidth).toInt()
         horizontalScrollView.smoothScrollTo(scrollX, 0)
     }
 
