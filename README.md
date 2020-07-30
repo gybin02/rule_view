@@ -10,6 +10,33 @@
         android:id="@+id/rule_scroll_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
+       
+```kotlin
+        ruleView = (RuleScrollView) findViewById(R.id.rule_scroll_view);
+        ruleView.setRange(-45, 45);
+        ruleView.setUnit(15);
+        ruleView.setProcess(10);
+        ruleView.setOnChangedListener(new RuleScrollView.OnChangedListener() {
+            @Override
+            public void onStartTouch() {
+                Log.e(TAG, "onStartTouch");
+            }
+
+            @Override
+            public void onStopTouch() {
+                Log.e(TAG, "onStopTouch");
+            }
+
+            @Override
+            public void onSlide(boolean isFromUser, int number) {
+                Log.e(TAG, "onSlide: " + number);
+                tv.setText("全部：" + number);
+                if (isFromUser) {
+                    tv_user.setText("用户触发： " + number);
+                }
+            }
+        });
+```
 
 ## API：
 
