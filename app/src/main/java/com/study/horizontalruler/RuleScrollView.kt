@@ -50,18 +50,23 @@ import android.widget.RelativeLayout
         ruleView.setOnChangedListener(listener)
     }
 
-
+    /**
+     * 设置范围
+     */
     fun setRange(minValue: Int,maxValue: Int){
         ruleView.minValue = (minValue)
         ruleView.maxValue = maxValue
         ruleView.requestLayout()
     }
+    /**
+     * 刻度进制,一个大区间代表的进度，默认10。
+     */
     fun setUnit(unit:Int){
         ruleView.unit =unit
     }
 
     /**
-     * 设置默认刻度尺的刻度值,不会滚动到相应的位置
+     * 设置默认刻度值,并滚动到相应的位置
      *
      * @param process 默认值
      */
